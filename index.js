@@ -46,6 +46,11 @@ async function run() {
             const result = await packageBookCollection.insertOne(packageBook);
             res.json(result)
         });
+        app.get('/placeorders', async (req, res) => {
+            const cursor = packageBookCollection.find({});
+            const services = await cursor.toArray();
+            res.json(services);
+        });
         // get my orders
         app.get("/myorders/:email", async (req, res) => {
             const result = await packageBookCollection.find({
@@ -54,8 +59,16 @@ async function run() {
             res.send(result);
         });
         // delete api 
-        app.delete("/deleteorder/:Id", async (req, res) => {
-            const id = req.params.Id;
+        app.delete("/deleteorder/:id", async (req, res) => {
+            const id = req.params.id;
+            console.log(id)
+            const query = { _id: ObjectId(id) };
+            const result = await packageBookCollection.deleteOne(query);
+            res.json(result);
+        });
+        // delete all order 
+        app.delete("/deleteallorder/:id", async (req, res) => {
+            const id = req.params.id;
             console.log(id)
             const query = { _id: ObjectId(id) };
             const result = await packageBookCollection.deleteOne(query);
