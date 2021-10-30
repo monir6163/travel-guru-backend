@@ -74,6 +74,19 @@ async function run() {
             const result = await packageBookCollection.deleteOne(query);
             res.json(result);
         });
+        //status update api
+        app.put('/placeorders/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const statusUpdate = {
+                $set: {
+                    status: 'approved'
+                }
+            };
+            const result = await packageBookCollection.updateOne(filter, statusUpdate, options);
+            res.json(result)
+        })
     }
     finally {
         // await client.close();
