@@ -46,6 +46,7 @@ async function run() {
             const result = await packageBookCollection.insertOne(packageBook);
             res.json(result)
         });
+        // get all placeorders
         app.get('/placeorders', async (req, res) => {
             const cursor = packageBookCollection.find({});
             const services = await cursor.toArray();
@@ -61,7 +62,6 @@ async function run() {
         // delete api 
         app.delete("/deleteorder/:id", async (req, res) => {
             const id = req.params.id;
-            console.log(id)
             const query = { _id: ObjectId(id) };
             const result = await packageBookCollection.deleteOne(query);
             res.json(result);
